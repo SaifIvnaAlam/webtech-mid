@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<head>
+    
+    <title>Login</title>
+
+</head>
+
+
+<?php require_once '../Controllers/logCon.php'; ?>
+<body>
+    <?php include 'Header.php'; ?>
+
+    <?php
+
+    if (isset($_POST['email']) && isset($_POST['password'])) 
+	{
+        $data = file_get_contents("Data.json");
+        $data = json_decode($data, true);
+        foreach ($data as $data) {
+            if ($data["email"] == $_POST['email'] && $data["password"] == $_POST['password'])
+				{
+					
+                $_SESSION['email'] = $data["email"];
+                $_SESSION['password'] = $data["password"];
+
+                if (!isset($_SESSION['name'])) {
+                    $_SESSION['name'] = $data["name"];
+                }
+
+                if (empty($_POST['rememberMe'])) 
+				{
+					setcookie("email", "");
+                    setcookie("password", "");  
+                } 
+				else 
+				{
+					setcookie("email", $_POST['email'], time() + 120);
+                    setcookie("password", $_POST['password'], time() + 120);
+                }
+
+                header("location: ReceptionistHome.php");
+            } 
+			else 
+			{
+                $error = "Username or password invalid";
+            }
+            
+        }
+    }
+
+    ?>
+		<fieldset style="background-color:#008080;">
+    <form align = "center" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        
+            <h1><b>LOGIN</b></h1>
+            
+			Email:<br> <input type="text" name="email" 
+			value="<?php 
+			if (isset($_COOKIE['email'])) 
+			{ 
+				echo $_COOKIE['email'];
+			} 
+			?>">
+			<?php
+                if ($emptyMail) 
+				{
+                    echo $emptyMail;
+                }
+                ?>
+			<br><br>
+
+            Password: <br><input type="password" name="password" id="pass" 
+			value="<?php 
+			if (isset($_COOKIE['password'])) 
+			{
+				echo $_COOKIE['password'];
+			} 
+			?>" >
+			<?php
+                if ($emptyPass) 
+				{
+                    echo $emptyPass;
+                }
+                ?>
+			<br>
+            <input type="checkbox" onclick="showPass()"> Show Password 
+
+            <input type="checkbox" name="rememberMe" value="rememberMe">
+            
+			<label>Remember me</label><br><br>
+
+            <input type="submit" name="submit" value="Login">
+			
+        
+        </fieldset>
+		<script>
+            
+			function showPass()
+			{
+                var pass = document.getElementById("pass");
+                
+				if (pass.type === "password") 
+				{
+                    pass.type = "text";
+                } 
+				else 
+				{
+                    pass.type = "password";
+                }
+            }
+        </script>
+    </form>
+
+</body>
+<?php include 'Footer.php'; ?>
+</html>

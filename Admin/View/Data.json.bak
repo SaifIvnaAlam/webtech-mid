@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Sabrina Sharmin",
+        "email": "pinky@gmail.com",
+        "phoneNo": "1739049925",
+        "password": "Pinky1234",
+        "gender": "Female",
+        "dateOfBirth": "1997-01-02"
+    },
+    {
+        "name": "Mohammad Rakib Hasan Sajib",
+        "email": "rakib@gmail.com",
+        "phoneNo": "1706661533",
+        "password": "Rakib1234",
+        "gender": "Male",
+        "dateOfBirth": "1997-01-15"
+    },
+    {
+        "name": "Mohammad Rakib Hasan Sajib",
+        "email": "rakib@gmail.com",
+        "phoneNo": "1706661533",
+        "password": "Rakib1234",
+        "gender": "Male",
+        "dateOfBirth": "1997-01-23"
+    }
+]

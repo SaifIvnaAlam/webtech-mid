@@ -1,0 +1,134 @@
+<?php
+
+require_once '../Models/json.php';
+
+session_start();
+
+$message = " ";
+$errorName = " "; 
+$errorPhone = " ";
+$errorMail = " ";
+$errorPass = " ";
+$errorConPass = " ";
+$errorGender = " ";
+$errorDOB = '';
+$valid = 1;
+
+if (isset($_POST["submit"])) 
+{
+    if (empty($_POST["name"])) 
+	{
+        $errorName = "*Please enter your full name";
+        $valid = 0;
+    } 
+	else if (str_word_count($_POST["name"]) < 2) {
+        $errorName = "*Full name must be at least 2 words";
+        $valid = 0;
+    } 
+	else if (!preg_match("/^[A-Za-z ]*$/", $_POST["name"])) {
+        $errorName = "*For full name only upper/lower case letters and white spaces are allowed";
+        $valid = 0;
+    }
+
+    if (empty($_POST["email"])) 
+	{
+        $errorMail  = "*Please enter your email address";
+        $valid = 0;
+    } else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) 
+	{
+        $errorMail  = "*Please enter a valid email address";
+        $valid = 0;
+    }
+
+    if (empty($_POST["phoneNo"])) 
+	{
+        $errorPhone = "*Please enter your phone number";
+        $valid = 0;
+    } 
+	else if (!preg_match('/^[0-9]{10}$/', $_POST["phoneNo"])) {
+        $errorPhone = "*Phone number must be eleven (10) digits (excluding +880)";
+        $valid = 0;
+    }
+
+    if (empty($_POST["password"])) 
+	{
+        $errorPass = "*Please enter a password";
+        $valid = 0;
+    } 
+	
+	else if (strlen($_POST["password"]) < 6) 
+	{
+        $errorPass = "*Password must not be less than six (6) characters";
+        $valid = 0;
+    } 
+	
+	else if (!preg_match('/[A-Z]+/', $_POST["password"])) 
+	{
+        $errorPass = "*Password must contain at least one upper case letter, one lower case letter and one numeric character";
+        $valid = 0;
+    } 
+	else if (!preg_match('/[a-z]+/', $_POST["password"])) 
+	{
+        $errorPass = "*Password must contain at least one upper case letter, one lower case letter and one numeric character";
+        $valid = 0;
+    } 
+	else if (!preg_match('/[0-9]+/', $_POST["password"])) 
+	{
+        $errorPass = "*Password must contain at least one upper case letter, one lower case letter and one numeric character";
+        $valid = 0;
+    }
+
+    if (empty($_POST["confirmPassword"])) {
+        $errorConPass = "*Please enter confirm password";
+        $valid = 0;
+    } 
+	else if ($_POST["password"] != $_POST["confirmPassword"]) {
+        $errorConPass = "*Password and confirm password does not match";
+        $valid = 0;
+    }
+
+    if (empty($_POST["gender"])) {
+        $errorGender = "*Please select a gender";
+        $valid = 0;
+    }
+
+    if (empty($_POST["dateOfBirth"])) 
+	{
+        $errorDOB = "*Please enter your date of birth";
+        $valid = 0;
+    } 
+	
+	else 
+	{
+        $age = date_diff(date_create($_POST["dateOfBirth"]), date_create(date("Y-m-d")));
+        if ($age->format('%y') < 18) {
+            $errorDOB = "*You must be 18 years or older";
+            $valid = 0;
+        }
+    }
+
+    if ($valid) 
+	{
+        $_SESSION['name'] = input($_POST["name"]);
+        $_SESSION['email'] = input($_POST["email"]);
+        $_SESSION['phoneNo'] = input($_POST["phoneNo"]);
+        $_SESSION['password'] = input($_POST["password"]);
+        $_SESSION['gender'] = input($_POST["gender"]);
+        $_SESSION['dateOfBirth'] = input($_POST["dateOfBirth"]);
+
+        if (file_exists('../View/Data.json')) 
+		{
+            $message = addToJson($_POST);
+            header("location: AdminHome.php");
+        } 
+		
+		else 
+		{
+            $message = '<p>Json file does not exit</p>';
+        }
+    } 
+	else 
+	{
+        $message = '<p>Registration failed</p>';
+    }
+}

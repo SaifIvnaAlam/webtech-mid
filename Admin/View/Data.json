@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Anik Mahmud",
+        "email": "anik@gmail.com",
+        "phoneNo": "1739049925",
+        "password": "Anik1234",
+        "gender": "male",
+        "dateOfBirth": "1997-01-02"
+    },
+    {
+        "name": "Mohammad Rakib Hasan Sajib",
+        "email": "rakib@gmail.com",
+        "phoneNo": "1706661533",
+        "password": "Rakib1234",
+        "gender": "Male",
+        "dateOfBirth": "1997-01-15"
+    },
+    {
+        "name": "Maftum Hasnain",
+        "email": "maftum@gmail.com",
+        "phoneNo": "1706661533",
+        "password": "Maftum1234",
+        "gender": "Male",
+        "dateOfBirth": "1997-01-23"
+    },
+    {
+        "name": "saif ivna alam",
+        "email": "saifivna99@gmail.com",
+        "phoneNo": "1753569415",
+        "password": "S@ifivnaalam12",
+        "gender": "Male",
+        "dateOfBirth": "1999-02-22"
+    }
+]
